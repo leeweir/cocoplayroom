@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fffaf3" />
+    <meta name="description" content="可可的游戏小屋，爸爸做的小游戏都在这里。照顾小猫、开动火车、迷宫探险，选一个就出发！" />
+    <title>可可的游戏小屋</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css?v=1" />
+    <script type="module" src="app.js?v=1"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#games">跳到游戏列表</a>
+    <header class="site-header shell">
+      <a class="brand" href="./" aria-label="可可的游戏小屋，首页">
+        <span class="brand-mark" aria-hidden="true">c</span>
+        <span>可可的游戏小屋<small>COCO’S PLAYROOM</small></span>
+      </a>
+      <span class="header-note">爸爸做的，每一份小快乐</span>
+    </header>
+
+    <main class="shell">
+      <section class="welcome" aria-labelledby="welcome-title">
+        <div class="welcome-copy">
+          <p class="hello">欢迎回来，可可！</p>
+          <h1 id="welcome-title">今天，想玩<span>哪一个？</span></h1>
+          <p class="welcome-description">小猫、小兔和小火车都在等你。<br />选一个喜欢的，开始今天的小冒险吧。</p>
+          <button class="surprise-button" id="surprise" type="button" hidden>帮我选一个 <span aria-hidden="true">↗</span></button>
+        </div>
+        <img class="welcome-art" src="assets/welcome.png" alt="小猫和小兔坐在花园里，身旁停着一列小火车" width="1536" height="1024" fetchpriority="high" />
+      </section>
+
+      <aside class="recent" id="recent" aria-label="上次玩的游戏" hidden>
+        <span class="recent-copy">上次玩了 <strong id="recent-title"></strong></span>
+        <a id="recent-link" href="#games">再去玩 <span aria-hidden="true">→</span></a>
+      </aside>
+
+      <section class="collection" id="games" aria-labelledby="games-title">
+        <div class="collection-heading">
+          <h2 id="games-title">小小游戏，大大世界<span class="game-count" id="game-count"></span></h2>
+          <div class="filters" id="filters" role="group" aria-label="按游戏类型筛选" hidden>
+            <button type="button" data-filter="all" aria-pressed="true">全部游戏</button>
+            <button type="button" data-filter="puzzle" aria-pressed="false">动动脑</button>
+            <button type="button" data-filter="adventure" aria-pressed="false">去冒险</button>
+            <button type="button" data-filter="relax" aria-pressed="false">慢慢玩</button>
+          </div>
+        </div>
+        <p class="sr-only" id="status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div class="game-grid" id="game-grid">
+          <p class="loading-message">正在打开游戏小屋…</p>
+        </div>
+        <noscript>
+          <p>点下面的名字就可以进入游戏：</p>
+          <ul class="fallback-links">
+            <li><a href="https://leeweir.github.io/cococat/">喵呜小屋</a></li>
+            <li><a href="https://leeweir.github.io/perlica-rail/">小火车接轨</a></li>
+            <li><a href="https://leeweir.github.io/bunny-carrot-adventure/">小兔的胡萝卜探险</a></li>
+            <li><a href="https://leeweir.github.io/peppapig/">佩奇的完美假期</a></li>
+            <li><a href="https://leeweir.github.io/cocoworld/">可可的小世界</a></li>
+            <li><a href="https://leeweir.github.io/cocogame/">巧克力的蛋仔城</a></li>
+          </ul>
+          <style>.loading-message{display:none}</style>
+        </noscript>
+      </section>
+    </main>
+
+    <footer class="site-footer shell">
+      <span class="footer-mark" aria-hidden="true">c</span>
+      <p>给可可的游戏小屋 <span>每次来，都有小快乐。</span></p>
+      <p class="footer-tip">玩一会儿，也记得让眼睛休息一下呀。</p>
+    </footer>
+
+    <dialog class="pick-dialog" id="pick-dialog" aria-labelledby="pick-title" aria-describedby="pick-description">
+      <button class="close-dialog" id="close-dialog" type="button" aria-label="关闭推荐">×</button>
+      <p class="pick-eyebrow">今天的小惊喜</p>
+      <img id="pick-image" alt="" width="600" height="400" />
+      <h2 id="pick-title"></h2>
+      <p id="pick-description"></p>
+      <div class="pick-actions">
+        <button id="pick-again" type="button">换一个</button>
+        <a id="pick-link" href="#games">就玩这个 <span aria-hidden="true">→</span></a>
+      </div>
+    </dialog>
+  </body>
+</html>
