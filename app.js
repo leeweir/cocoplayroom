@@ -1,4 +1,5 @@
 import { games } from './games.js';
+import { trackGameClick } from './analytics.js';
 
 const grid = document.querySelector('#game-grid');
 const status = document.querySelector('#status');
@@ -12,13 +13,20 @@ function rememberGame(id) {
   try { localStorage.setItem(lastGameKey, id); } catch { /* 禁止存储时仍然能打开游戏。 */ }
 }
 
-function bindGameLink(link, game) {
+function openGame(game, source) {
+  rememberGame(game.id);
+  trackGameClick(game, source);
+}
+
+function bindGameLink(link, game, source = 'card') {
   link.href = game.url;
   link.dataset.gameId = game.id;
-  link.addEventListener('click', () => rememberGame(game.id));
-  link.addEventListener('auxclick', (event) => {
-    if (event.button === 1) rememberGame(game.id);
-  });
+  link.dataset.entrySource = source;
+  // 使用可替换的处理函数，避免刷新「上次玩了」或随机推荐时重复埋点。
+  link.onclick = () => openGame(game, source);
+  link.onauxclick = (event) => {
+    if (event.button === 1) openGame(game, source);
+  };
 }
 
 function gameCard(game) {
@@ -91,9 +99,8 @@ function refreshRecent() {
   if (!game) return;
   document.querySelector('#recent-title').textContent = game.title;
   const link = document.querySelector('#recent-link');
-  link.href = game.url;
+  bindGameLink(link, game, 'recent');
   link.setAttribute('aria-label', `再去玩：${game.title}`);
-  link.onclick = () => rememberGame(game.id);
 }
 
 function pickGame() {
@@ -109,8 +116,7 @@ function pickGame() {
   image.src = selectedGame.image;
   image.alt = `${selectedGame.title}的游戏画面`;
   const link = document.querySelector('#pick-link');
-  link.href = selectedGame.url;
-  link.onclick = () => rememberGame(selectedGame.id);
+  bindGameLink(link, selectedGame, 'random');
   link.setAttribute('aria-label', `就玩这个：${selectedGame.title}`);
   document.querySelector('#pick-again').disabled = games.length < 2;
   if (!dialog.open) dialog.showModal();

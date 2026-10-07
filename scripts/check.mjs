@@ -16,7 +16,7 @@ for (const game of games) {
   await access(new URL(`../${game.image}`, import.meta.url));
   assert.ok(html.includes(`href="${game.url}"`), `${game.id}: add the link to the noscript fallback too`);
 }
-for (const file of ['assets/welcome.png', 'assets/favicon.svg', 'style.css', 'app.js']) {
+for (const file of ['assets/welcome.png', 'assets/favicon.svg', 'style.css', 'app.js', 'analytics.js']) {
   await access(new URL(`../${file}`, import.meta.url));
 }
 console.log(`Checked ${games.length} games: unique ids, HTTPS URLs, local covers and fallback links.`);
