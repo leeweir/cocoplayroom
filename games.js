@@ -2,6 +2,16 @@
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
   {
+    id: 'royal-closet',
+    title: '星愿衣橱',
+    description: '换上心爱的裙装，去童话世界冒险。',
+    category: 'relax',
+    label: '公主换装',
+    color: 'lavender',
+    image: 'assets/royal-closet.jpg',
+    url: 'https://leeweir.github.io/royal-closet/',
+  },
+  {
     id: 'cococat',
     title: '喵呜小屋',
     description: '领养一只小猫，布置你们温暖的家。',

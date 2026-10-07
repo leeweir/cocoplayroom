@@ -1,4 +1,4 @@
-import { games } from './games.js';
+import { games } from './games.js?v=20261008-closet';
 import { trackGameClick } from './analytics.js';
 
 const grid = document.querySelector('#game-grid');
