@@ -49,7 +49,7 @@ npm run build
 
 ## 发布
 
-GitHub Pages 仓库为 `leeweir/coco-game-index`，发布地址为 <https://leeweir.github.io/coco-game-index/>。
+GitHub Pages 仓库为 `leeweir/cocoplayroom`，发布地址为 <https://leeweir.github.io/cocoplayroom/>。
 
 仓库的 Settings → Pages → Source 设为 GitHub Actions。推送到 `main` 后，`.github/workflows/pages.yml` 自动校验、构建并发布 `dist/`，也可以从 Actions 手动运行。
 
