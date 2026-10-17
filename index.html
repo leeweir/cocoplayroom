@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fffaf3" />
-    <meta name="description" content="可可的游戏小屋，爸爸做的小游戏都在这里。经营奶茶店、漫游故宫、改装跑车、换装与探险，选一个就出发！" />
+    <meta name="description" content="可可的游戏小屋，按玩法找到喜欢的小游戏：经营生活、装扮养成、益智解谜、探索漫游、汽车改装。选一种喜欢的玩法，开始今天的小快乐。" />
     <title>可可的游戏小屋</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=1" />
+    <link rel="stylesheet" href="style.css?v=20261018-genres" />
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -16,7 +16,7 @@
       data-exclude-search="true"
       data-exclude-hash="true"
     ></script>
-    <script type="module" src="app.js?v=20261018-new-games"></script>
+    <script type="module" src="app.js?v=20261018-genres"></script>
   </head>
   <body>
     <a class="skip-link" href="#games">跳到游戏列表</a>
@@ -32,8 +32,8 @@
       <section class="welcome" aria-labelledby="welcome-title">
         <div class="welcome-copy">
           <p class="hello">欢迎回来，可可！</p>
-          <h1 id="welcome-title">今天，想玩<span>哪一个？</span></h1>
-          <p class="welcome-description">小猫、小兔和小火车都在等你。<br />选一个喜欢的，开始今天的小冒险吧。</p>
+          <h1 id="welcome-title">今天，想<span>怎么玩？</span></h1>
+          <p class="welcome-description">当小店长、照顾小猫，或是出发去看看世界。<br />选一种喜欢的玩法，开始今天的小快乐。</p>
           <button class="surprise-button" id="surprise" type="button" hidden>帮我选一个 <span aria-hidden="true">↗</span></button>
         </div>
         <img class="welcome-art" src="assets/welcome.png" alt="小猫和小兔坐在花园里，身旁停着一列小火车" width="1536" height="1024" fetchpriority="high" />
@@ -46,32 +46,42 @@
 
       <section class="collection" id="games" aria-labelledby="games-title">
         <div class="collection-heading">
-          <h2 id="games-title">小小游戏，大大世界<span class="game-count" id="game-count"></span></h2>
-          <div class="filters" id="filters" role="group" aria-label="按游戏类型筛选" hidden>
-            <button type="button" data-filter="all" aria-pressed="true">全部游戏</button>
-            <button type="button" data-filter="puzzle" aria-pressed="false">动动脑</button>
-            <button type="button" data-filter="adventure" aria-pressed="false">去冒险</button>
-            <button type="button" data-filter="relax" aria-pressed="false">慢慢玩</button>
-          </div>
+          <h2 id="games-title">按喜欢的类型，挑一个</h2>
+          <p class="game-count" id="game-count"></p>
         </div>
         <p class="sr-only" id="status" role="status" aria-live="polite" aria-atomic="true"></p>
-        <div class="game-grid" id="game-grid">
-          <p class="loading-message">正在打开游戏小屋…</p>
+        <div class="library-layout">
+          <nav class="category-nav" id="category-nav" aria-label="游戏类型" hidden>
+            <p class="nav-label">游戏类型</p>
+            <ul id="category-links"></ul>
+          </nav>
+          <div class="game-groups" id="game-groups">
+            <p class="loading-message">正在打开游戏小屋…</p>
+          </div>
         </div>
         <noscript>
-          <p>点下面的名字就可以进入游戏：</p>
-          <ul class="fallback-links">
-            <li><a href="https://leeweir.github.io/cocoshop/">桃桃茶屋</a></li>
-            <li><a href="https://leeweir.github.io/forbidden-city-axis/">紫禁城·中轴九阙</a></li>
-            <li><a href="https://leeweir.github.io/supercar/">流光跑车工作室</a></li>
-            <li><a href="https://leeweir.github.io/royal-closet/">星愿衣橱</a></li>
-            <li><a href="https://leeweir.github.io/cococat/">喵呜小屋</a></li>
-            <li><a href="https://leeweir.github.io/perlica-rail/">小火车接轨</a></li>
-            <li><a href="https://leeweir.github.io/bunny-carrot-adventure/">小兔的胡萝卜探险</a></li>
-            <li><a href="https://leeweir.github.io/peppapig/">佩奇的完美假期</a></li>
-            <li><a href="https://leeweir.github.io/cocoworld/">可可的小世界</a></li>
-            <li><a href="https://leeweir.github.io/cocogame/">巧克力的蛋仔城</a></li>
-          </ul>
+          <div class="fallback-groups">
+            <section><h3>经营生活</h3><ul>
+              <li><a href="https://leeweir.github.io/cocoshop/">桃桃茶屋</a></li>
+              <li><a href="https://leeweir.github.io/cocogame/">巧克力的蛋仔城</a></li>
+            </ul></section>
+            <section><h3>装扮养成</h3><ul>
+              <li><a href="https://leeweir.github.io/royal-closet/">星愿衣橱</a></li>
+              <li><a href="https://leeweir.github.io/cococat/">喵呜小屋</a></li>
+            </ul></section>
+            <section><h3>益智解谜</h3><ul>
+              <li><a href="https://leeweir.github.io/perlica-rail/">小火车接轨</a></li>
+              <li><a href="https://leeweir.github.io/bunny-carrot-adventure/">小兔的胡萝卜探险</a></li>
+            </ul></section>
+            <section><h3>探索漫游</h3><ul>
+              <li><a href="https://leeweir.github.io/forbidden-city-axis/">紫禁城·中轴九阙</a></li>
+              <li><a href="https://leeweir.github.io/peppapig/">佩奇的完美假期</a></li>
+              <li><a href="https://leeweir.github.io/cocoworld/">可可的小世界</a></li>
+            </ul></section>
+            <section><h3>汽车改装</h3><ul>
+              <li><a href="https://leeweir.github.io/supercar/">流光跑车工作室</a></li>
+            </ul></section>
+          </div>
           <style>.loading-message{display:none}</style>
         </noscript>
       </section>

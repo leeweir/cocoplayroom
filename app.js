@@ -1,9 +1,9 @@
-import { games } from './games.js?v=20261018-new-games';
+import { categories, games } from './games.js?v=20261018-genres';
 import { trackGameClick } from './analytics.js';
 
-const grid = document.querySelector('#game-grid');
+const groupsContainer = document.querySelector('#game-groups');
 const status = document.querySelector('#status');
-const filters = document.querySelector('#filters');
+const categoryNav = document.querySelector('#category-nav');
 const dialog = document.querySelector('#pick-dialog');
 const lastGameKey = 'coco-game-index:last-game:v1';
 let selectedGame;
@@ -55,7 +55,7 @@ function gameCard(game) {
   const category = document.createElement('p');
   category.className = 'card-category';
   category.textContent = game.label;
-  const title = document.createElement('h3');
+  const title = document.createElement('h4');
   title.textContent = game.title;
   const description = document.createElement('p');
   description.className = 'card-description';
@@ -75,19 +75,66 @@ function gameCard(game) {
   return card;
 }
 
-function renderGames(filter = 'all') {
-  const visible = games.filter((game) => filter === 'all' || game.category === filter);
-  grid.replaceChildren(...visible.map(gameCard));
-  if (!visible.length) {
+function renderGames() {
+  const sections = [];
+  const links = [];
+  for (const category of categories) {
+    const members = games.filter((game) => game.category === category.id);
+    if (!members.length) continue;
+    const section = document.createElement('section');
+    section.className = 'game-group';
+    section.id = `category-${category.id}`;
+    section.tabIndex = -1;
+    section.setAttribute('aria-labelledby', `${section.id}-title`);
+    const header = document.createElement('div');
+    header.className = 'group-heading';
+    const title = document.createElement('h3');
+    title.id = `${section.id}-title`;
+    title.textContent = category.title;
+    const count = document.createElement('span');
+    count.className = 'group-count';
+    count.textContent = `${members.length} 个游戏`;
+    title.append(count);
+    const description = document.createElement('p');
+    description.textContent = category.description;
+    header.append(title, description);
+    const grid = document.createElement('div');
+    grid.className = 'game-grid';
+    grid.append(...members.map(gameCard));
+    section.append(header, grid);
+    sections.push(section);
+
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = `${location.pathname}${location.search}#${section.id}`;
+    const label = document.createElement('span');
+    label.textContent = category.title;
+    const total = document.createElement('span');
+    total.className = 'nav-count';
+    total.textContent = String(members.length);
+    total.setAttribute('aria-label', `${members.length} 个游戏`);
+    link.append(label, total);
+    item.append(link);
+    links.push(item);
+  }
+  groupsContainer.replaceChildren(...sections);
+  document.querySelector('#category-links').replaceChildren(...links);
+  categoryNav.hidden = !sections.length;
+  if (!sections.length) {
     const empty = document.createElement('p');
     empty.className = 'empty-message';
-    empty.textContent = '这里还没有游戏，试试「全部游戏」吧。';
-    grid.append(empty);
+    empty.textContent = '新的小游戏正在准备，过一会儿再来看看吧。';
+    groupsContainer.append(empty);
   }
-  document.querySelector('#game-count').textContent = `${visible.length} 个游戏`;
-  status.textContent = `显示 ${visible.length} 个游戏`;
-  for (const button of filters.querySelectorAll('button')) {
-    button.setAttribute('aria-pressed', String(button.dataset.filter === filter));
+  document.querySelector('#game-count').textContent = `${games.length} 个游戏 / ${sections.length} 种玩法`;
+  status.textContent = `全部 ${games.length} 个游戏，已按 ${sections.length} 种玩法分组。`;
+  refreshCategoryLocation();
+}
+
+function refreshCategoryLocation() {
+  for (const link of categoryNav.querySelectorAll('a')) {
+    if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
   }
 }
 
@@ -122,10 +169,7 @@ function pickGame() {
   if (!dialog.open) dialog.showModal();
 }
 
-filters.addEventListener('click', (event) => {
-  const button = event.target.closest('button[data-filter]');
-  if (button) renderGames(button.dataset.filter);
-});
+window.addEventListener('hashchange', refreshCategoryLocation);
 document.querySelector('#surprise').addEventListener('click', pickGame);
 document.querySelector('#pick-again').addEventListener('click', pickGame);
 document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
@@ -140,5 +184,4 @@ window.addEventListener('storage', (event) => {
 
 renderGames();
 refreshRecent();
-filters.hidden = false;
 document.querySelector('#surprise').hidden = !games.length;
