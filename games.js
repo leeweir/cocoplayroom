@@ -2,6 +2,16 @@
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
   {
+    id: 'supercar',
+    title: '流光跑车工作室',
+    description: '挑一辆喜欢的跑车，换颜色、开车灯。',
+    category: 'relax',
+    label: '跑车改装',
+    color: 'blue',
+    image: 'assets/supercar.jpg',
+    url: 'https://leeweir.github.io/supercar/',
+  },
+  {
     id: 'royal-closet',
     title: '星愿衣橱',
     description: '换上心爱的裙装，去童话世界冒险。',
