@@ -1,4 +1,4 @@
-import { games } from './games.js?v=20261017-supercar';
+import { games } from './games.js?v=20261018-new-games';
 import { trackGameClick } from './analytics.js';
 
 const grid = document.querySelector('#game-grid');

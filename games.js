@@ -2,6 +2,26 @@
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
   {
+    id: 'cocoshop',
+    title: '桃桃茶屋',
+    description: '调一杯喜欢的奶茶，经营自己的小店。',
+    category: 'relax',
+    label: '奶茶经营',
+    color: 'pink',
+    image: 'assets/cocoshop.jpg',
+    url: 'https://leeweir.github.io/cocoshop/',
+  },
+  {
+    id: 'forbidden-city-axis',
+    title: '紫禁城·中轴九阙',
+    description: '沿着中轴逛宫殿，看看故宫的日与夜。',
+    category: 'adventure',
+    label: '宫城漫游',
+    color: 'butter',
+    image: 'assets/forbidden-city-axis.jpg',
+    url: 'https://leeweir.github.io/forbidden-city-axis/',
+  },
+  {
     id: 'supercar',
     title: '流光跑车工作室',
     description: '挑一辆喜欢的跑车，换颜色、开车灯。',
