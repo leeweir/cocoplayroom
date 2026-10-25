@@ -1,4 +1,4 @@
-import { categories, games } from './games.js?v=20261018-genres';
+import { categories, games } from './games.js?v=20261025-new-games';
 import { trackGameClick } from './analytics.js';
 
 const groupsContainer = document.querySelector('#game-groups');

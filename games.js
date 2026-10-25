@@ -2,7 +2,7 @@
 export const categories = [
   { id: 'life', title: '经营生活', description: '煮奶茶、逛小镇，把小日子过得有声有色。' },
   { id: 'care', title: '装扮养成', description: '搭配喜欢的裙装，照顾软乎乎的小猫。' },
-  { id: 'puzzle', title: '益智解谜', description: '转一转、想一想，找到通往终点的路。' },
+  { id: 'puzzle', title: '益智解谜', description: '找线索、想办法，解开一个个小谜题。' },
   { id: 'explore', title: '探索漫游', description: '去旅行、逛宫殿，发现小世界里的新风景。' },
   { id: 'garage', title: '汽车改装', description: '挑车漆、换轮毂，把跑车变成喜欢的样子。' },
 ];
@@ -10,6 +10,26 @@ export const categories = [
 // 新游戏只需要在这里添加一项，并把封面放进 assets/。
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
+  {
+    id: 'zoocity',
+    title: '疯狂动物城·侦探档案',
+    description: '和朱迪、尼克一起找线索，解开动物城的谜题。',
+    category: 'puzzle',
+    label: '侦探解谜',
+    color: 'blue',
+    image: 'assets/zoocity.jpg',
+    url: 'https://leeweir.github.io/zoocity/',
+  },
+  {
+    id: 'cocotravel',
+    title: '小小旅行家 Coco',
+    description: '和 Coco 一起去纽约、巴黎和东京冒险。',
+    category: 'explore',
+    label: '环球旅行',
+    color: 'peach',
+    image: 'assets/cocotravel.jpg',
+    url: 'https://leeweir.github.io/cocotravel/',
+  },
   {
     id: 'cocoshop',
     title: '桃桃茶屋',
