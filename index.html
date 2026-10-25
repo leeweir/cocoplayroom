@@ -7,7 +7,7 @@
     <meta name="description" content="可可的游戏小屋，按玩法找到喜欢的小游戏：经营生活、装扮养成、益智解谜、探索漫游、汽车改装。选一种喜欢的玩法，开始今天的小快乐。" />
     <title>可可的游戏小屋</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261018-genres" />
+    <link rel="stylesheet" href="style.css?v=20261025-layout" />
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -16,7 +16,7 @@
       data-exclude-search="true"
       data-exclude-hash="true"
     ></script>
-    <script type="module" src="app.js?v=20261025-new-games"></script>
+    <script type="module" src="app.js?v=20261025-layout"></script>
   </head>
   <body>
     <a class="skip-link" href="#games">跳到游戏列表</a>
@@ -31,31 +31,30 @@
     <main class="shell">
       <section class="welcome" aria-labelledby="welcome-title">
         <div class="welcome-copy">
-          <p class="hello">欢迎回来，可可！</p>
           <h1 id="welcome-title">今天，想<span>怎么玩？</span></h1>
-          <p class="welcome-description">当小店长、照顾小猫，或是出发去看看世界。<br />选一种喜欢的玩法，开始今天的小快乐。</p>
-          <button class="surprise-button" id="surprise" type="button" hidden>帮我选一个 <span aria-hidden="true">↗</span></button>
+          <p class="welcome-description">当小店长、照顾小猫，或是出发去看看世界。</p>
+          <div class="welcome-actions">
+            <button class="surprise-button" id="surprise" type="button" hidden>帮我选一个 <span aria-hidden="true">↗</span></button>
+            <aside class="recent" id="recent" aria-label="上次玩的游戏" hidden>
+              <span class="recent-copy">上次玩了</span>
+              <a id="recent-link" href="#games"><strong id="recent-title"></strong> <span aria-hidden="true">↗</span></a>
+            </aside>
+          </div>
         </div>
         <img class="welcome-art" src="assets/welcome.png" alt="小猫和小兔坐在花园里，身旁停着一列小火车" width="1536" height="1024" fetchpriority="high" />
       </section>
 
-      <aside class="recent" id="recent" aria-label="上次玩的游戏" hidden>
-        <span class="recent-copy">上次玩了 <strong id="recent-title"></strong></span>
-        <a id="recent-link" href="#games">再去玩 <span aria-hidden="true">→</span></a>
-      </aside>
-
       <section class="collection" id="games" aria-labelledby="games-title">
         <div class="collection-heading">
-          <h2 id="games-title">按喜欢的类型，挑一个</h2>
+          <h2 id="games-title">所有游戏</h2>
           <p class="game-count" id="game-count"></p>
         </div>
         <p class="sr-only" id="status" role="status" aria-live="polite" aria-atomic="true"></p>
         <div class="library-layout">
           <nav class="category-nav" id="category-nav" aria-label="游戏类型" hidden>
-            <p class="nav-label">游戏类型</p>
             <ul id="category-links"></ul>
           </nav>
-          <div class="game-groups" id="game-groups">
+          <div class="game-grid" id="game-groups">
             <p class="loading-message">正在打开游戏小屋…</p>
           </div>
         </div>

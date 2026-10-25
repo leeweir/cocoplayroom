@@ -32,6 +32,7 @@ function bindGameLink(link, game, source = 'card') {
 function gameCard(game) {
   const card = document.createElement('article');
   card.className = `game-card ${game.color}`;
+  card.dataset.category = game.category;
   const link = document.createElement('a');
   link.setAttribute('aria-label', `开始玩：${game.title}`);
   bindGameLink(link, game);
@@ -54,8 +55,8 @@ function gameCard(game) {
   content.className = 'card-content';
   const category = document.createElement('p');
   category.className = 'card-category';
-  category.textContent = game.label;
-  const title = document.createElement('h4');
+  category.textContent = categories.find((item) => item.id === game.category).title;
+  const title = document.createElement('h3');
   title.textContent = game.title;
   const description = document.createElement('p');
   description.className = 'card-description';
@@ -76,66 +77,56 @@ function gameCard(game) {
 }
 
 function renderGames() {
-  const sections = [];
-  const links = [];
-  for (const category of categories) {
-    const members = games.filter((game) => game.category === category.id);
-    if (!members.length) continue;
-    const section = document.createElement('section');
-    section.className = 'game-group';
-    section.id = `category-${category.id}`;
-    section.tabIndex = -1;
-    section.setAttribute('aria-labelledby', `${section.id}-title`);
-    const header = document.createElement('div');
-    header.className = 'group-heading';
-    const title = document.createElement('h3');
-    title.id = `${section.id}-title`;
-    title.textContent = category.title;
-    const count = document.createElement('span');
-    count.className = 'group-count';
-    count.textContent = `${members.length} 个游戏`;
-    title.append(count);
-    const description = document.createElement('p');
-    description.textContent = category.description;
-    header.append(title, description);
-    const grid = document.createElement('div');
-    grid.className = 'game-grid';
-    grid.append(...members.map(gameCard));
-    section.append(header, grid);
-    sections.push(section);
-
+  const cards = [];
+  const activeCategories = categories.filter((category) => games.some((game) => game.category === category.id));
+  const links = [{ id: '', title: '全部', count: games.length }, ...activeCategories.map((category) => ({
+    ...category, count: games.filter((game) => game.category === category.id).length,
+  }))].map((category) => {
     const item = document.createElement('li');
     const link = document.createElement('a');
-    link.href = `${location.pathname}${location.search}#${section.id}`;
+    const hash = category.id ? `category-${category.id}` : 'games';
+    link.href = `${location.pathname}${location.search}#${hash}`;
+    if (category.id) link.id = hash;
     const label = document.createElement('span');
     label.textContent = category.title;
     const total = document.createElement('span');
     total.className = 'nav-count';
-    total.textContent = String(members.length);
-    total.setAttribute('aria-label', `${members.length} 个游戏`);
+    total.textContent = String(category.count);
+    total.setAttribute('aria-label', `${category.count} 个游戏`);
     link.append(label, total);
     item.append(link);
-    links.push(item);
+    return item;
+  });
+  for (const category of categories) {
+    const members = games.filter((game) => game.category === category.id);
+    cards.push(...members.map(gameCard));
   }
-  groupsContainer.replaceChildren(...sections);
+  groupsContainer.replaceChildren(...cards);
   document.querySelector('#category-links').replaceChildren(...links);
-  categoryNav.hidden = !sections.length;
-  if (!sections.length) {
+  categoryNav.hidden = !cards.length;
+  if (!cards.length) {
     const empty = document.createElement('p');
     empty.className = 'empty-message';
     empty.textContent = '新的小游戏正在准备，过一会儿再来看看吧。';
     groupsContainer.append(empty);
   }
-  document.querySelector('#game-count').textContent = `${games.length} 个游戏 / ${sections.length} 种玩法`;
-  status.textContent = `全部 ${games.length} 个游戏，已按 ${sections.length} 种玩法分组。`;
   refreshCategoryLocation();
 }
 
 function refreshCategoryLocation() {
+  const selected = categories.find((category) => location.hash === `#category-${category.id}`);
+  let visible = 0;
+  for (const card of groupsContainer.querySelectorAll('.game-card')) {
+    card.hidden = !!selected && card.dataset.category !== selected.id;
+    if (!card.hidden) visible++;
+  }
   for (const link of categoryNav.querySelectorAll('a')) {
-    if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
+    if (link.hash === (selected ? location.hash : '#games')) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
   }
+  document.querySelector('#games-title').textContent = selected?.title ?? '所有游戏';
+  document.querySelector('#game-count').textContent = selected ? `${visible} 个游戏` : `${games.length} 个游戏 · ${categories.filter((category) => games.some((game) => game.category === category.id)).length} 种玩法`;
+  status.textContent = `正在显示${selected?.title ?? '全部'}，共 ${visible} 个游戏。`;
 }
 
 function refreshRecent() {
