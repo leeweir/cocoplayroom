@@ -1,4 +1,4 @@
-// 分类顺序决定首页分区和导航顺序；空分类不会显示。
+// 分类顺序只决定导航顺序；空分类不会显示。
 export const categories = [
   { id: 'life', title: '经营生活', description: '煮奶茶、逛小镇，把小日子过得有声有色。' },
   { id: 'care', title: '装扮养成', description: '搭配喜欢的裙装，照顾软乎乎的小猫。' },
@@ -7,7 +7,8 @@ export const categories = [
   { id: 'garage', title: '汽车改装', description: '挑车漆、换轮毂，把跑车变成喜欢的样子。' },
 ];
 
-// 新游戏只需要在这里添加一项，并把封面放进 assets/。
+// 按游戏上线时间从新到旧维护；新上线的游戏添加到数组最前面。
+// 全部游戏和分类筛选共用此顺序，并把新封面放进 assets/。
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
   {

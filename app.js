@@ -1,4 +1,4 @@
-import { categories, games } from './games.js?v=20261025-new-games';
+import { categories, games } from './games.js?v=20261025-newest-first';
 import { trackGameClick } from './analytics.js';
 
 const groupsContainer = document.querySelector('#game-groups');
@@ -77,7 +77,7 @@ function gameCard(game) {
 }
 
 function renderGames() {
-  const cards = [];
+  const cards = games.map(gameCard);
   const activeCategories = categories.filter((category) => games.some((game) => game.category === category.id));
   const links = [{ id: '', title: '全部', count: games.length }, ...activeCategories.map((category) => ({
     ...category, count: games.filter((game) => game.category === category.id).length,
@@ -97,10 +97,6 @@ function renderGames() {
     item.append(link);
     return item;
   });
-  for (const category of categories) {
-    const members = games.filter((game) => game.category === category.id);
-    cards.push(...members.map(gameCard));
-  }
   groupsContainer.replaceChildren(...cards);
   document.querySelector('#category-links').replaceChildren(...links);
   categoryNav.hidden = !cards.length;
