@@ -1,40 +1,59 @@
-# 入口统计
+# 网站与游戏统计
 
-方案：Umami Cloud。统计脚本已配置在 `index.html` 的 `<head>`；站点 ID 为 `b72a1b50-0b5a-4d61-a9f5-d3878d826048`，仅在 `leeweir.github.io` 上收集。站点 ID 会出现在公开网页中，用于关联统计站点。
-没有脚本或脚本被拦截时，页面仍能正常打开游戏。
+使用已有的 Umami Cloud 网站 `leeweir.github.io`，网站 ID 为 `b72a1b50-0b5a-4d61-a9f5-d3878d826048`。博客、游戏入口和各个游戏共用这个网站，用 tag 分开查看，无需为每个路径创建统计网站。网站 ID 是公开采集标识，报表仍需登录查看。
+
+## 标签与查看入口
+
+打开 [Umami 后台](https://cloud.umami.is/analytics/us/websites/b72a1b50-0b5a-4d61-a9f5-d3878d826048)，在 Overview 选择 **Filter → Tag → Is**。未筛选时显示共用网站的合计数据。
+
+| 页面 | Tag | 路径 |
+| --- | --- | --- |
+| 博客 | `blog` | `/`、`/blog/`、`/posts/…` 等 |
+| 可可的游戏小屋（入口） | `playroom` | `/cocoplayroom/` |
+| 疯狂动物城·侦探档案 | `zoocity` | `/zoocity/` |
+| 小小旅行家 Coco | `cocotravel` | `/cocotravel/` |
+| 桃桃茶屋 | `cocoshop` | `/cocoshop/` |
+| 紫禁城·中轴九阙 | `forbidden-city-axis` | `/forbidden-city-axis/` |
+| 流光跑车工作室 | `supercar` | `/supercar/` |
+| 星愿衣橱 | `royal-closet` | `/royal-closet/` |
+| 喵呜小屋 | `cococat` | `/cococat/` |
+| 小火车接轨 | `perlica-rail` | `/perlica-rail/` |
+| 小兔的胡萝卜探险 | `bunny-carrot-adventure` | `/bunny-carrot-adventure/` |
+| 佩奇的完美假期 | `peppapig` | `/peppapig/` |
+| 可可的小世界 | `cocoworld` | `/cocoworld/` |
+
+快捷入口：[游戏小屋](https://cloud.umami.is/analytics/us/websites/b72a1b50-0b5a-4d61-a9f5-d3878d826048?tag=eq.playroom)、[博客](https://cloud.umami.is/analytics/us/websites/b72a1b50-0b5a-4d61-a9f5-d3878d826048?tag=eq.blog)。
+
+新标签从本次发布后生效，不会自动补到历史事件。查看入口的历史数据仍可用 **Path = /cocoplayroom/**，包含加标签前后的访问。
 
 ## 数据范围
 
-- 页面访问：由 Umami 官方脚本自动采集，可查看入口访问趋势、访客估算、设备和来源。
-- 游戏入口点击：普通卡片、上次玩的游戏、随机推荐统一使用 `game_click` 事件。
-- 本次只改入口，点击量表示从入口打开游戏的次数。游戏内的时长和关卡进度需要后续在各游戏接入。
+- 每个页面由 Umami 官方脚本自动记录页面浏览，Overview 查看 **Views**、**Visitors**，Sources → Referrers 查看浏览器提供的访问来源。
+- 直接打开、收藏和分享的游戏链接也会统计；无需经过游戏入口。
+- 入口继续记录 `game_click`，表示点击游戏链接的次数。它与游戏自身的页面浏览量是两种不同指标；不要把点击事件当成游戏启动或关卡完成次数。
+- 只在 `leeweir.github.io` 域名上报，本地预览不计入。小火车和可可世界在本地文件及本地预览中连统计脚本也不会加载，保持离线游玩。
+- 不额外采集游戏操作、关卡进度、存档、玩家输入或账号标识。开发用模型预览页面不接入统计。
+- URL 查询参数和页面锚点不参与统计，因此不记录搜索词或 UTM 参数。直接访问、同域跳转或浏览器不提供来源时，外部来源可能为空。
+- Visitors 是访客估算，不等同于精确人数；浏览器拦截统计时可能漏计。
 
-## 事件属性
+## 游戏入口事件
+
+普通卡片、上次玩的游戏、随机推荐统一通过 `analytics.js` 上报 `game_click`，继承入口的 `playroom` 标签。
 
 | 属性 | 内容 |
 | --- | --- |
-| `game_id` | 稳定的游戏编号，例如 `cococat` |
+| `game_id` | 游戏编号，与各游戏 tag 一致，例如 `cococat` |
 | `game_title` | 游戏名称，例如「喵呜小屋」 |
 | `entry_source` | `card` 普通卡片、`recent` 上次玩的游戏、`random` 随机推荐 |
 
-左键、触屏、键盘激活及鼠标中键点击都会记录；单纯跳转到游戏分类、抽取推荐或返回入口不会产生游戏点击事件。分类分区和导航重构不改变事件名称、属性或游戏编号。
+左键、触屏、键盘激活及鼠标中键点击都会记录；切换分类、抽取推荐、返回入口不会产生游戏点击事件。按 Events 查看 `game_click`，按属性查看游戏与点击入口。
 
-## 接入与查看
+游戏链接保持浏览器原生跳转；调用 `track()` 后不等待网络响应。统计缺失、被拦截或暂不可用时，不影响打开游戏。
 
-1. 打开 [Umami Cloud 后台](https://cloud.umami.is/)，选择对应的统计网站。
-2. 在网站概览查看入口访问量、访客估算、设备和来源；如以后同一 ID 也用于其他页面，可按 `/cocoplayroom/` 路径筛选。
-3. 点击游戏后，在 Events 查看 `game_click`；Properties 按 `game_title` 看各游戏的点击量，按 `entry_source` 看入口来源。
+## 后续维护
 
-默认将数据留在 Umami 的账号后台，不公开统计报表。
-URL 查询参数和页面片段不参与统计。本地预览不收集数据。
+新增游戏时，在实际发布入口 HTML 中添加一次官方脚本，沿用同一网站 ID、`data-domains="leeweir.github.io"`、排除查询参数和锚点，并设置与 `games.js` 的游戏 ID 相同的 `data-tag`。若项目需要构建，应修改源码模板后构建，不能只改临时产物。
 
-## 跳转与故障
+单文件离线游戏应沿用 `perlica-rail` 或 `cocoworld` 的按域名加载方式。仅统计浏览量、访客和来源不需要 API key，也不需要再手动上报一次页面浏览。
 
-游戏链接保持浏览器原生跳转；调用 Umami 的 `track()` 后不等待网络响应。官方脚本使用 `keepalive` 发送请求，统计服务暂不可用时不会拖住游戏跳转。
-不会向事件属性添加真实姓名、游戏存档或账号标识。浏览器拦截统计请求时可能漏计。
-
-官方文档：
-
-- [获取统计代码](https://docs.umami.is/docs/collect-data)
-- [自定义事件](https://docs.umami.is/docs/track-events)
-- [统计指标定义](https://docs.umami.is/docs/metric-definitions)
+参考：[获取统计代码](https://docs.umami.is/docs/collect-data)、[标签](https://docs.umami.is/docs/tags)、[脚本配置](https://docs.umami.is/docs/tracker-configuration)、[指标定义](https://docs.umami.is/docs/metric-definitions)。
