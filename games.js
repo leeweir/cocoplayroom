@@ -18,7 +18,7 @@ export const games = [
     category: 'puzzle',
     label: '侦探解谜',
     color: 'blue',
-    image: 'assets/zoocity.jpg',
+    image: 'assets/zoocity.jpg?v=20261118',
     url: 'https://leeweir.github.io/zoocity/',
   },
   {
