@@ -2,17 +2,21 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { brotliDecompressSync } from 'node:zlib';
-import { categories, games } from '../games.js';
+import { allGamesLabel, categories, games } from '../games.js';
 
 export const roundedFontFile = 'assets/resource-han-rounded-bold.woff2';
 
-// 圆体子集要覆盖的字：index.html 与 app.js 里的全部文字、分类名和游戏名，再加上 ASCII。
-// 游戏介绍使用系统字体，不放进子集。
+// 静态圆体文案来自标题和 data-rounded 元素，动态文案来自游戏目录。
 export async function roundedFontText() {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-  const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+  const markup = html.replace(/<!--[\s\S]*?-->/g, '').replace(/<(script|style|svg)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
+  const elements = [
+    ...markup.matchAll(/<(h[1-3])\b[^>]*>([\s\S]*?)<\/\1>/gi),
+    ...markup.matchAll(/<([\w-]+)\b[^>]*\sdata-rounded\b[^>]*>([\s\S]*?)<\/\1>/gi),
+  ];
+  const labels = elements.map(([, , content]) => content.replace(/<[^>]*>/g, ''));
   const ascii = Array.from({ length: 95 }, (_, index) => String.fromCharCode(32 + index)).join('');
-  const text = [html, app, ...categories.map((category) => category.title), ...games.map((game) => game.title), ascii].join('');
+  const text = [ascii, ...labels, allGamesLabel, ...categories.map((category) => category.title), ...games.map((game) => game.title)].join('');
   return [...new Set(text.replace(/\s/g, ''))].sort().join('');
 }
 

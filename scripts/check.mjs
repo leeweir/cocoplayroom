@@ -18,10 +18,11 @@ for (const category of categories) {
   }
 }
 for (const game of games) {
-  for (const key of ['id', 'title', 'description', 'image']) {
+  for (const key of ['id', 'title', 'description', 'image', 'url']) {
     assert.ok(typeof game[key] === 'string' && game[key].trim(), `${game.id}: missing ${key}`);
   }
   assert.ok(categoryIds.has(game.category), `${game.id}: unknown category`);
+  assert.ok(/^https:\/\//i.test(game.url) && URL.canParse(game.url), `${game.id}: expected an absolute HTTPS game URL`);
   assert.match(game.image, /^assets\/[a-z0-9-]+\.jpg$/, `${game.id}: covers are assets/<name>.jpg without a version query`);
   await access(new URL(`../${game.image}`, import.meta.url));
 }

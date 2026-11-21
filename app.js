@@ -1,9 +1,11 @@
-import { categories, games } from './games.js';
-import { trackGameClick } from './analytics.js';
+import { allGamesLabel, categories, games } from './games.js';
+import { flushGameClicks, trackGameClick } from './analytics.js';
 
 const groupsContainer = document.querySelector('#game-groups');
 const status = document.querySelector('#status');
 const categoryNav = document.querySelector('#category-nav');
+const gamesHeading = document.querySelector('#games-title');
+const allGamesHeading = gamesHeading.textContent;
 const dialog = document.querySelector('#pick-dialog');
 const lastGameKey = 'coco-game-index:last-game:v1';
 const categoryById = new Map(categories.map((category) => [category.id, category]));
@@ -22,6 +24,7 @@ function openGame(game, source) {
 
 function bindGameLink(link, game, source = 'card') {
   link.href = game.url;
+  link.rel = 'noopener';
   link.dataset.gameId = game.id;
   link.dataset.entrySource = source;
   // 使用可替换的处理函数，避免刷新「上次玩了」或随机推荐时重复埋点。
@@ -78,7 +81,7 @@ function gameCard(game) {
 
 function renderGames() {
   const cards = games.map(gameCard);
-  const links = [{ id: '', title: '全部', count: games.length }, ...activeCategories.map((category) => ({
+  const links = [{ id: '', title: allGamesLabel, count: games.length }, ...activeCategories.map((category) => ({
     ...category, count: games.filter((game) => game.category === category.id).length,
   }))].map((category) => {
     const item = document.createElement('li');
@@ -124,8 +127,8 @@ function refreshCategoryLocation() {
   }
   // 筛选后卡片上的分类标签与标题重复，只在「全部」中显示。
   groupsContainer.classList.toggle('is-filtered', !!selected);
-  document.querySelector('#games-title').textContent = selected?.title ?? '所有游戏';
-  status.textContent = `正在显示${selected?.title ?? '全部'}，共 ${visible} 个游戏。`;
+  gamesHeading.textContent = selected?.title ?? allGamesHeading;
+  status.textContent = `正在显示${selected?.title ?? allGamesLabel}，共 ${visible} 个游戏。`;
 }
 
 function refreshRecent() {
@@ -169,7 +172,11 @@ dialog.addEventListener('click', (event) => {
   const box = dialog.getBoundingClientRect();
   if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
 });
-window.addEventListener('pageshow', refreshRecent);
+document.addEventListener('DOMContentLoaded', () => flushGameClicks(), { once: true });
+window.addEventListener('pageshow', () => {
+  refreshRecent();
+  flushGameClicks();
+});
 window.addEventListener('storage', (event) => {
   if (event.key === lastGameKey || event.key === null) refreshRecent();
 });

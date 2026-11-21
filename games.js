@@ -1,3 +1,5 @@
+export const allGamesLabel = '全部';
+
 // 分类顺序只决定导航顺序；空分类不会显示。
 // 每个分类在 index.html 有剪纸图标 #icon-<id>，在 style.css 有同名配色，新增分类时两处都要补。
 export const categories = [

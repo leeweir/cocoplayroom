@@ -24,7 +24,7 @@ npm run build
 
 ## 添加游戏
 
-1. 截取游戏的标题画面或角色画面（少截满屏小字的界面），裁成 4:3，导出为 800×600 的 JPG 放到 `assets/`，文件名使用小写字母、数字和连字符，例如：
+1. 截取游戏的角色或玩法画面，裁成 4:3，先缩到约 160px 宽确认能辨认主角或动作，再导出 800×600 JPG 到 `assets/`。文件名使用小写字母、数字和连字符，例如：
 
 ```sh
 sips --cropToHeightWidth 900 1200 截图.png --out /tmp/cover.png   # 先裁成 4:3
@@ -51,7 +51,7 @@ sips -z 600 800 -s format jpeg -s formatOptions 78 /tmp/cover.png --out assets/n
 
 ### 圆体字体
 
-标题、分类和按钮使用资源圆体 Resource Han Rounded Bold（SIL OFL 1.1，许可证见 `assets/resource-han-rounded-OFL.txt`）。只发布页面用到的字（约 48KB）；游戏介绍等正文仍用系统字体。重新生成子集：
+标题、分类和按钮使用资源圆体 Resource Han Rounded Bold（SIL OFL 1.1，许可证见 `assets/resource-han-rounded-OFL.txt`）。当前字体文件约 26 KB。字符来自 HTML 的一至三级标题、带 `data-rounded` 的静态文案、分类与游戏名称，以及可打印的非空白 ASCII 字符。新增静态圆体按钮时为其添加 `data-rounded`。重新生成子集：
 
 ```sh
 # 源字体：https://github.com/CyanoHao/Resource-Han-Rounded/releases/tag/v0.990 的 RHR-CN-0.990.7z 中的 ResourceHanRoundedCN-Bold.ttf

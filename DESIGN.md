@@ -6,7 +6,7 @@
 
 > Use case: illustration-story. Asset type: compact website header illustration for a child's personal game collection. Primary request: a friendly little orange tabby kitten and a white bunny with pink ears sitting together in a tiny sunny play garden, next to a coral toy train with two carriages and a small wooden cottage, with a single carrot and a few flowers. Style: beautiful tactile cut-paper children's picture book, softly textured gouache on warm cream paper, simple rounded silhouettes, gently irregular edges, restrained detail, no outlines. Palette warm apricot, tomato coral, butter yellow, sage green, cream. Composition: wide landscape 3:2, all subjects grouped as one compact vignette centrally with generous clean cream margins, friendly expressive faces, welcoming mood. Background uniform cream #fff9ef so it sits naturally on a cream webpage. Not a UI mockup, only illustration. No text, letters, numerals, logos or watermark.
 
-游戏卡片图片：对应游戏公开网页的浏览器截图。截图时使用全新的临时浏览器会话，没有读写用户的日常浏览器存档。2026-11-22 起统一截取 1200×900 视口的标题或角色画面，裁成 4:3 后导出 800×600 JPG；小火车接轨取第 1 关接通铁轨、小火车出发时的棋盘与佩丽卡面板（不只截人物，要看得出是铁路游戏），小兔的胡萝卜探险取关卡棋盘（游戏没有标题画面），紫禁城、小火车和小兔用 2 倍截图裁局部以保持清晰。
+游戏卡片使用真实游戏画面，在独立的临时浏览器会话中截图，裁成 4:3 并导出 800×600 JPG。以手机约 160px 的封面宽度检查主角和玩法是否容易辨认。《疯狂动物城》取朱迪与尼克并排的选角近景，《小火车接轨》取第二关列车进入弯道的瞬间，《桃桃茶屋》取草莓啵啵乳送到客人身边时的吧台。《小兔的胡萝卜探险》使用关卡棋盘。
 
 ## 2026-10-18 分类目录改版
 
@@ -44,6 +44,8 @@ DESIGN_VARIANCE: 3；MOTION_INTENSITY: 2；VISUAL_DENSITY: 6。桌面四列、�
 - 图标：分类图标是内联 SVG 剪纸小图（小房子、奶茶杯、蝴蝶结、放大镜、热气球、小汽车），平涂两到三色，底边一道硬阴影，没有描边。
 - 字体：标题、分类、按钮用资源圆体 Bold 子集，游戏介绍保留系统字体。
 - 卡片：4:3 封面占卡片大部分面积；分类小标签只在「全部」中显示，筛选后隐藏；手机隐藏介绍。
+- 宽度不超过 767px 且高度不超过 740px 时，猫兔插画放在推荐按钮右侧，最近游玩另起一行。分类数量保留给读屏软件，375×667 首屏可读到第一排的两个游戏名。
+- 手机横屏高度不超过 480px、宽度在 540–950px 时，标题、推荐按钮与插画并排，游戏使用四列。
 - 去掉的模板化细节：全大写 `COCO’S PLAYROOM`、标题里单独标红的「怎么玩？」、链接和按钮后的 ↗ 与 →、「13 个游戏 · 5 种玩法」计数行、弹窗的「今天的小惊喜」小标题。
 
 DESIGN_VARIANCE: 5；MOTION_INTENSITY: 2；VISUAL_DENSITY: 5。保留页面地址、`#games` 与分类锚点、原生跳转、上次游玩的存储键、随机推荐和 `game_click` 统计协议。
