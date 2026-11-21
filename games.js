@@ -12,6 +12,16 @@ export const categories = [
 // id 保持不变，方便识别上次打开的游戏。
 export const games = [
   {
+    id: 'southline-sunset-run',
+    title: '南湾夜行',
+    description: '沿着海岸开车兜风，驾驶直升机探索城市。',
+    category: 'explore',
+    label: '城市驾驶',
+    color: 'peach',
+    image: 'assets/southline-sunset-run.jpg',
+    url: 'https://leeweir.github.io/southline-sunset-run/',
+  },
+  {
     id: 'zoocity',
     title: '疯狂动物城·侦探档案',
     description: '和朱迪、尼克一起找线索，解开动物城的谜题。',

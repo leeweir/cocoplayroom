@@ -1,4 +1,4 @@
-import { categories, games } from './games.js?v=20261118-zoocity-cover';
+import { categories, games } from './games.js?v=20261121-southline';
 import { trackGameClick } from './analytics.js';
 
 const groupsContainer = document.querySelector('#game-groups');
