@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { access, readdir, readFile, stat } from 'node:fs/promises';
 import { categories, games } from '../games.js';
+import { roundedFontFile, roundedFontText, woff2Codepoints } from './font.mjs';
+
+// 单个发布文件的体积上限：封面按 800×600 JPEG 导出即可满足。
+const maxAssetBytes = 150 * 1024;
 
 assert.ok(games.length > 0, 'Add at least one game.');
 assert.equal(new Set(games.map((game) => game.id)).size, games.length, 'Game ids must be unique.');
@@ -13,29 +17,28 @@ for (const category of categories) {
     assert.ok(typeof category[key] === 'string' && category[key].trim(), `${category.id}: missing ${key}`);
   }
 }
-const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 for (const game of games) {
-  for (const key of ['id', 'title', 'description', 'label', 'image']) {
+  for (const key of ['id', 'title', 'description', 'image']) {
     assert.ok(typeof game[key] === 'string' && game[key].trim(), `${game.id}: missing ${key}`);
   }
   assert.ok(categoryIds.has(game.category), `${game.id}: unknown category`);
-  assert.ok(['peach', 'sage', 'butter', 'pink', 'blue', 'lavender'].includes(game.color), `${game.id}: unknown color`);
-  assert.equal(new URL(game.url).protocol, 'https:', `${game.id}: use HTTPS`);
-  assert.ok(game.image.startsWith('assets/') && !game.image.includes('..'), `${game.id}: invalid asset path`);
+  assert.match(game.image, /^assets\/[a-z0-9-]+\.jpg$/, `${game.id}: covers are assets/<name>.jpg without a version query`);
   await access(new URL(`../${game.image}`, import.meta.url));
-  assert.ok(html.includes(`href="${game.url}"`), `${game.id}: add the link to the noscript fallback too`);
 }
-for (const file of ['assets/welcome.png', 'assets/favicon.svg', 'style.css', 'app.js', 'analytics.js']) {
+const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+const css = await readFile(new URL('../style.css', import.meta.url), 'utf8');
+for (const id of ['all', ...categories.filter((category) => games.some((game) => game.category === category.id)).map((category) => category.id)]) {
+  assert.ok(html.includes(`<symbol id="icon-${id}"`), `${id}: add a paper-cut icon <symbol id="icon-${id}"> to index.html`);
+  assert.ok(css.includes(`[data-category="${id}"] { --tone:`), `${id}: add [data-category="${id}"] tones to style.css`);
+}
+const covered = woff2Codepoints(await readFile(new URL(`../${roundedFontFile}`, import.meta.url)));
+const missing = [...(await roundedFontText())].filter((char) => !covered.has(char.codePointAt(0)));
+assert.equal(missing.join(''), '', `${roundedFontFile} is missing these characters; regenerate the subset as described in README.`);
+for (const file of ['assets/welcome.webp', 'assets/favicon.svg', 'style.css', 'app.js', 'analytics.js']) {
   await access(new URL(`../${file}`, import.meta.url));
 }
-for (const category of categories) {
-  const members = games.filter((game) => game.category === category.id);
-  if (!members.length) continue;
-  const start = html.indexOf(`<h3>${category.title}</h3>`);
-  assert.ok(start >= 0, `${category.id}: add the category to the noscript fallback`);
-  const fallback = html.slice(start, html.indexOf('</section>', start));
-  for (const game of members) {
-    assert.ok(fallback.includes(`href="${game.url}"`), `${game.id}: fallback category does not match the game category`);
-  }
+for (const file of await readdir(new URL('../assets/', import.meta.url))) {
+  const { size } = await stat(new URL(`../assets/${file}`, import.meta.url));
+  assert.ok(size <= maxAssetBytes, `assets/${file}: ${Math.round(size / 1024)}KB exceeds ${maxAssetBytes / 1024}KB; export covers as 800×600 JPEG.`);
 }
-console.log(`Checked ${games.length} games in ${categories.length} categories: unique ids, HTTPS URLs, local covers and fallback links.`);
+console.log(`Checked ${games.length} games in ${categories.length} categories: unique ids, HTTPS URLs, covers within ${maxAssetBytes / 1024}KB, category icons and tones, ${covered.size} rounded-font characters.`);

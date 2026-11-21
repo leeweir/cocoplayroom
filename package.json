@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "check": "node --check app.js && node --check games.js && node --check analytics.js && node --test tests/analytics.test.js && node scripts/check.mjs",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs && node scripts/serve.mjs dist"
   }
 }

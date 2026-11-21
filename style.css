@@ -1,111 +1,127 @@
+/* 资源圆体 Resource Han Rounded，SIL OFL 1.1（assets/resource-han-rounded-OFL.txt）。只含页面用到的字，生成方法见 README。 */
+@font-face {
+  font-family: "Resource Han Rounded";
+  src: url("assets/resource-han-rounded-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
 :root {
   color-scheme: light dark;
-  --paper: #fffaf3;
-  --surface: #fffdfa;
-  --surface-muted: #f2ecdf;
-  --ink: #423b32;
-  --muted: #716454;
+  --paper: #fef9ef;
+  --surface: #fffdf8;
+  --surface-muted: #f3ecdf;
+  --ink: #3d342b;
+  --muted: #6b5f50;
+  --line: #e8dfd0;
   --brand: #b8412d;
-  --accent: #b8412d;
-  --accent-hover: #993724;
-  --accent-soft: #f8e7df;
-  --line: #e6ddd0;
-  --radius: 16px;
-  font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mark: #b8412d;
+  --cta: #f5c84c;
+  --cta-hover: #f0bb2b;
+  --cta-ink: #3d342b;
+  --cta-edge: #c99a1c;
+  --font-body: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-round: "Resource Han Rounded", var(--font-body);
+  font-family: var(--font-body);
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
+/* 分类配色取自首页插画的剪纸色：--tone 纸面，--tone-deep 图标暗部，--tone-soft 卡片底色，--tone-ink 文字。 */
+[data-category] { --tone-ink: var(--tone-deep); }
+[data-category="all"] { --tone: #f49846; --tone-deep: #9e4b00; --tone-soft: #fbdec0; }
+[data-category="life"] { --tone: #eb754e; --tone-deep: #ae340b; --tone-soft: #f9d4c2; }
+[data-category="care"] { --tone: #f2a0a6; --tone-deep: #a33456; --tone-soft: #fbe0db; }
+[data-category="puzzle"] { --tone: #f5c84c; --tone-deep: #876300; --tone-soft: #fbebc1; }
+[data-category="explore"] { --tone: #9fb36a; --tone-deep: #5a6932; --tone-soft: #e3e5ca; }
+[data-category="garage"] { --tone: #86b4d6; --tone-deep: #2b6896; --tone-soft: #dce6e8; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 16px; }
 body { margin: 0; min-width: 280px; }
 button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button { font: inherit; cursor: pointer; }
 a { color: inherit; }
-button, a { outline-offset: 5px; }
-:focus-visible { outline: 3px solid var(--accent); }
+button, a { outline-offset: 4px; }
+:focus-visible { outline: 3px solid var(--ink); }
 button:disabled { cursor: default; opacity: .55; }
 img { display: block; max-width: 100%; }
 [hidden] { display: none !important; }
+h1, h2, h3, .brand-name, .category-nav a, .surprise-button, .recent strong, .pick-actions { font-family: var(--font-round); font-weight: 700; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* 底边一道硬阴影，像叠在纸上的剪纸。 */
+.icon { flex: none; width: 1.5em; height: 1.5em; filter: drop-shadow(0 1.5px 0 rgb(61 52 43 / .2)); }
 .shell { width: min(1200px, calc(100% - 64px)); margin-inline: auto; }
-.site-header { min-height: 68px; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid var(--line); }
-.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 19px; font-weight: 700; letter-spacing: .04em; }
+.site-header { min-height: 68px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 20px; letter-spacing: .02em; }
 .brand-mark { width: 43px; height: 43px; display: grid; place-items: center; color: #fffaf3; background: var(--brand); font-size: 44px; line-height: 1; font-family: Georgia, serif; font-style: italic; padding: 0 3px 8px 0; border-radius: 15px 15px 15px 5px; transform: rotate(-7deg); }
-.brand small { display: block; margin-top: 5px; font-size: 9px; font-weight: 600; letter-spacing: .19em; color: var(--muted); }
 .header-note { color: var(--muted); font-size: 13px; }
-/* The welcome stays compact so the game shelf is visible immediately. */
-.welcome { display: grid; grid-template-columns: minmax(0, 1fr) 210px; align-items: center; gap: 32px; padding: 20px 0; }
-h1 { font-size: clamp(28px, 3.2vw, 36px); line-height: 1.3; letter-spacing: -.035em; margin: 0; font-weight: 800; }
-h1 span { color: var(--accent); white-space: nowrap; }
-.welcome-description { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 10px 0 18px; }
+/* 插画是首页主角：桌面放在右侧，草地落在游戏区的分隔线上；手机放在最上方。 */
+.welcome { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 38vw, 460px); align-items: end; gap: 32px; }
+.welcome-art { grid-column: 2; grid-row: 1; width: 100%; height: auto; margin-bottom: -2px; }
+.welcome-copy { grid-column: 1; grid-row: 1; align-self: center; padding-block: 24px; }
+h1 { margin: 0; font-size: clamp(32px, 4.2vw, 50px); line-height: 1.25; letter-spacing: .02em; }
+.welcome-description { margin: 12px 0 24px; color: var(--muted); font-size: 15px; line-height: 1.8; }
 .welcome-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; }
-.surprise-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; padding: 0 18px; border: 1px solid var(--brand); border-radius: 12px; background: var(--brand); color: #fffaf3; font-size: 14px; font-weight: 650; white-space: nowrap; transition: background .18s; }
-.surprise-button span { font-size: 20px; }
-.surprise-button:hover { background: var(--accent-hover); }
-.surprise-button:active { transform: translateY(1px); }
-.welcome-art { width: 210px; height: auto; aspect-ratio: 3 / 2; object-fit: contain; justify-self: end; mix-blend-mode: multiply; border-radius: var(--radius); }
+.surprise-button { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px 4px 14px; border: 0; border-radius: 16px; background: var(--cta); color: var(--cta-ink); font-size: 17px; white-space: nowrap; box-shadow: inset 0 -4px 0 var(--cta-edge); transition: background .15s, transform .15s; }
+.surprise-button .icon { width: 30px; height: 30px; }
+.surprise-button:hover { background: var(--cta-hover); }
+.surprise-button:active { transform: translateY(2px); box-shadow: inset 0 -2px 0 var(--cta-edge); }
 .recent { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 13px; }
 .recent-copy { color: var(--muted); white-space: nowrap; }
-.recent a { display: inline-flex; align-items: center; min-height: 44px; gap: 10px; color: var(--accent); text-decoration: none; }
-.recent strong { font-weight: 650; overflow-wrap: anywhere; }
+.recent a { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; color: var(--ink); text-decoration: none; }
+.recent img { width: 48px; height: 36px; object-fit: cover; border-radius: 8px; }
+.recent strong { font-size: 15px; overflow-wrap: anywhere; }
 .recent a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
-.collection { padding: 16px 0 48px; border-top: 1px solid var(--line); }
-.collection-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
-h2 { margin: 0; font-size: 22px; line-height: 1.5; letter-spacing: -.025em; }
-.game-count { font-size: 12px; color: var(--muted); white-space: nowrap; margin: 0; }
-.library-layout { min-width: 0; }
+.collection { padding: 24px 0 56px; border-top: 2px solid var(--line); }
+h2 { margin: 0; font-size: 24px; line-height: 1.5; letter-spacing: .02em; }
 /* Layers: sticky category navigation 2; skip link 4; dialog uses the top layer. */
-.category-nav { position: sticky; z-index: 2; top: 0; padding: 8px 0 12px; margin-bottom: 6px; background: var(--paper); }
-.category-nav ul { list-style: none; margin: 0; padding: 4px; display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
-.category-nav li { flex: 0 0 auto; }
-.category-nav a { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; font-size: 14px; color: var(--ink); white-space: nowrap; transition: background .15s, border-color .15s; }
-.category-nav a:hover { background: var(--surface-muted); }
-.category-nav a[aria-current="location"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-.nav-count { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.game-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 20px; align-items: stretch; }
-.game-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform .18s, border-color .18s, box-shadow .18s; }
-.game-card a { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+.category-nav { position: sticky; z-index: 2; top: 0; padding: 10px 0 14px; margin-bottom: 8px; background: var(--paper); }
+/* position: relative 让分类数量里的隐藏文字随列表滚动裁切，不撑宽整页。 */
+.category-nav ul { position: relative; list-style: none; margin: 0; padding: 4px; display: flex; gap: 10px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.category-nav li { flex: none; }
+.category-nav a { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 6px 12px 6px 10px; border: 2px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); font-size: 15px; text-decoration: none; white-space: nowrap; transition: background .15s, border-color .15s; }
+.category-nav .icon { width: 30px; height: 30px; }
+.category-nav a:hover { background: var(--tone-soft); }
+.category-nav a[aria-current="location"] { border-color: var(--tone); background: var(--tone-soft); color: var(--tone-ink); }
+.nav-count { min-width: 24px; padding: 1px 7px; border-radius: 999px; background: var(--surface-muted); color: var(--muted); font-family: var(--font-body); font-size: 12px; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
+.category-nav a[aria-current="location"] .nav-count { background: var(--surface); color: var(--tone-ink); }
+.game-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 22px; align-items: stretch; }
+.game-card { min-width: 0; border-radius: 22px; background: var(--tone-soft); transition: transform .18s; }
+.game-card a { display: flex; flex-direction: column; height: 100%; padding: 8px 8px 16px; border-radius: inherit; text-decoration: none; }
 @media (hover: hover) {
-  .game-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 6px 18px #423b3210; }
+  .game-card:hover { transform: translateY(-4px); }
 }
 .game-card:active { transform: translateY(0); }
-.game-card:focus-within { outline: 3px solid var(--accent); outline-offset: 4px; }
+.game-card:focus-within { outline: 3px solid var(--ink); outline-offset: 4px; }
 .game-card a:focus-visible { outline: none; }
-.cover { aspect-ratio: 16 / 9; overflow: hidden; background: var(--card-color); }
+.cover { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 16px; background: var(--tone); }
 .cover img { width: 100%; height: 100%; object-fit: cover; }
-.cover.image-missing { display: grid; place-items: center; padding: 20px; color: var(--ink); text-align: center; font-size: 20px; font-weight: 700; }
-.card-content { padding: 16px; display: flex; flex-direction: column; flex: 1; }
-.card-category { margin: 0 0 6px; color: var(--muted); font-size: 11px; }
-.game-card h3 { margin: 0; font-size: 18px; line-height: 1.5; font-weight: 750; letter-spacing: -.025em; overflow-wrap: anywhere; }
-.card-description { font-size: 12px; line-height: 1.75; color: var(--muted); margin: 8px 0 16px; }
-.card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; color: var(--accent); font-size: 13px; font-weight: 700; }
-.play-arrow { width: 28px; height: 28px; display: grid; place-items: center; background: var(--accent-soft); border-radius: 50%; font-size: 18px; }
-.peach { --card-color: #f5dfce; }
-.sage { --card-color: #e1e7d6; }
-.butter { --card-color: #f4e8c3; }
-.pink { --card-color: #f5e0e3; }
-.blue { --card-color: #dfe9e8; }
-.lavender { --card-color: #e6e1eb; }
+.cover.image-missing { display: grid; place-items: center; padding: 16px; color: var(--ink); text-align: center; font-family: var(--font-round); font-size: 20px; font-weight: 700; }
+.card-category { display: flex; align-items: center; gap: 6px; margin: 12px 6px 0; color: var(--tone-ink); font-size: 12px; font-weight: 600; }
+.card-category .icon { width: 20px; height: 20px; }
+.game-grid.is-filtered .card-category { display: none; }
+.game-card h3 { margin: 6px 6px 0; font-size: 19px; line-height: 1.4; overflow-wrap: anywhere; }
+.game-grid.is-filtered .game-card h3 { margin-top: 12px; }
+.card-description { display: -webkit-box; margin: 6px 6px 0; overflow: hidden; color: var(--muted); font-size: 13px; line-height: 1.7; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .empty-message, .loading-message { padding-block: 40px; color: var(--muted); }
-.site-footer { display: flex; align-items: center; gap: 16px; padding: 24px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-.footer-mark { font-family: Georgia, serif; font-style: italic; font-size: 35px; color: var(--accent); }
+.site-footer { display: flex; align-items: center; gap: 16px; padding: 24px 0 32px; border-top: 2px solid var(--line); color: var(--muted); font-size: 12px; }
+.footer-mark { font-family: Georgia, serif; font-style: italic; font-size: 35px; color: var(--mark); }
 .site-footer p { margin: 0; line-height: 1.9; }
 .site-footer p span { display: block; font-size: 11px; }
 .site-footer .footer-tip { margin-left: auto; }
-.pick-dialog { position: fixed; width: min(440px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: 0 24px 80px #2e211e30; }
+/* 推荐弹窗沿用所选游戏的分类底色。 */
+.pick-dialog { position: fixed; width: min(440px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 12px 12px 20px; border: 0; border-radius: 24px; background: var(--tone-soft, var(--paper)); color: var(--ink); box-shadow: 0 24px 80px #2e211e30; }
 .pick-dialog::backdrop { background: #2c251d88; }
-.close-dialog { position: absolute; right: 8px; top: 8px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 28px; }
+.close-dialog { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; padding: 0 0 2px; border: 0; border-radius: 50%; background: var(--paper); color: var(--ink); font-size: 26px; line-height: 1; box-shadow: 0 2px 0 rgb(61 52 43 / .18); }
 .close-dialog:hover { background: var(--surface-muted); }
-.pick-eyebrow { color: var(--accent); font-size: 14px; margin: 0 0 24px; }
-.pick-dialog img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; margin-bottom: 20px; }
-.pick-dialog h2 { font-size: 23px; }
-#pick-description { color: var(--muted); line-height: 1.8; font-size: 14px; margin: 8px 0 24px; }
-.pick-actions { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; }
-.pick-actions button, .pick-actions a { display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 48px; border-radius: 12px; font-size: 14px; font-weight: 650; text-decoration: none; white-space: nowrap; }
-.pick-actions button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
-.pick-actions a { border: 1px solid var(--brand); background: var(--brand); color: #fffaf3; }
-.pick-actions a:hover { background: var(--accent-hover); }
+.pick-dialog img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; }
+.pick-dialog h2 { margin: 16px 8px 0; font-size: 24px; }
+#pick-description { margin: 6px 8px 20px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.pick-actions { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; margin-inline: 4px; }
+.pick-actions button, .pick-actions a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 16px; font-size: 16px; text-decoration: none; white-space: nowrap; }
+.pick-actions button { border: 2px solid var(--line); background: var(--surface); color: var(--ink); }
+.pick-actions a { padding-bottom: 4px; background: var(--cta); color: var(--cta-ink); box-shadow: inset 0 -4px 0 var(--cta-edge); }
+.pick-actions a:hover { background: var(--cta-hover); }
 body:has(dialog[open]) { overflow: hidden; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .skip-link { position: fixed; z-index: 4; top: -80px; left: 16px; padding: 12px 20px; background: var(--surface); border-radius: 12px; }
@@ -115,52 +131,41 @@ body:has(dialog[open]) { overflow: hidden; }
 .fallback-groups ul { margin: 8px 0 0; padding-left: 20px; line-height: 2.7; }
 @media (max-width: 1023px) {
   .shell { width: calc(100% - 48px); }
-  .welcome { grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; }
-  .welcome-art { width: 210px; }
-  .recent { gap: 8px; }
-  .game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 16px; }
-  .category-nav a { padding-inline: 14px; }
+  .welcome { grid-template-columns: minmax(0, 1fr) clamp(260px, 42vw, 400px); gap: 24px; }
+  .game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; }
 }
 @media (max-width: 767px) {
   .shell { width: calc(100% - 32px); }
-  .site-header { min-height: 68px; }
-  .brand { font-size: 17px; gap: 10px; }
+  .brand { font-size: 18px; gap: 10px; }
   .brand-mark { width: 38px; height: 38px; font-size: 40px; }
   .header-note { display: none; }
-  .welcome { position: relative; display: block; padding: 24px 0; }
-  .welcome-copy { position: relative; z-index: 1; }
-  h1 { font-size: clamp(26px, 6vw, 34px); }
-  .welcome-description { max-width: 75%; font-size: 13px; margin: 10px 0 16px; }
-  .welcome-art { position: absolute; width: 100px; right: -8px; top: 16px; }
+  .welcome { display: block; }
+  .welcome-art { width: min(100%, 420px); margin: 4px auto 0; }
+  .welcome-copy { padding-block: 16px 24px; }
+  h1 { font-size: clamp(28px, 8vw, 36px); }
+  .welcome-description { margin: 8px 0 18px; font-size: 14px; }
   .welcome-actions { gap: 8px 16px; }
-  .recent { flex-wrap: wrap; column-gap: 8px; row-gap: 0; font-size: 12px; }
-  .recent a { min-height: 44px; }
-  .collection { padding-top: 20px; }
-  .collection-heading { gap: 8px; margin-bottom: 4px; }
-  h2 { font-size: 20px; }
-  .game-count { font-size: 11px; }
-  .category-nav { margin-inline: -16px; padding: 10px 12px 14px; margin-bottom: 2px; }
-  .category-nav ul { gap: 6px; }
-  .category-nav a { font-size: 13px; gap: 8px; padding: 8px 12px; }
+  .collection { padding-top: 18px; }
+  h2 { font-size: 21px; }
+  .category-nav { margin-inline: -16px; padding: 8px 12px 12px; margin-bottom: 4px; }
+  .category-nav ul { gap: 8px; }
+  .category-nav a { min-height: 48px; padding: 4px 10px 4px 8px; font-size: 14px; }
+  .category-nav .icon { width: 26px; height: 26px; }
   .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
-  .card-content { padding: 12px; }
-  .game-card h3 { font-size: 16px; line-height: 1.5; }
-  .card-category { font-size: 10px; margin-bottom: 5px; }
-  .card-description { font-size: 12px; margin: 6px 0 12px; }
-  .card-bottom { font-size: 12px; }
-  .play-arrow { width: 24px; height: 24px; font-size: 17px; }
+  .game-card { border-radius: 18px; }
+  .game-card a { padding: 6px 6px 12px; }
+  .cover { border-radius: 13px; }
+  .card-category { margin: 10px 4px 0; font-size: 11px; }
+  .card-category .icon { width: 18px; height: 18px; }
+  .game-card h3 { margin-inline: 4px; font-size: 16px; }
+  .card-description { display: none; }
   .site-footer { flex-wrap: wrap; padding-block: 24px; }
   .site-footer .footer-tip { width: 100%; margin-left: 0; }
   .fallback-groups { grid-template-columns: 1fr; }
 }
 @media (max-width: 379px) {
-  .welcome-art { display: none; }
-  .welcome-description { max-width: 100%; }
   .game-grid { gap: 12px 10px; }
-  .card-content { padding: 10px; }
   .game-card h3 { font-size: 15px; }
-  .card-description { display: none; }
-  .card-bottom { padding-top: 12px; }
   .recent { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -168,8 +173,11 @@ body:has(dialog[open]) { overflow: hidden; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
 @media (prefers-color-scheme: dark) {
-  :root { color-scheme: dark; --paper: #24211e; --surface: #2d2925; --surface-muted: #35302a; --ink: #f5ecdf; --muted: #c5b7a3; --accent: #f4a38c; --accent-hover: #983724; --accent-soft: #49332c; --line: #50463d; }
-  .game-card { --card-color: var(--surface-muted); }
-  .welcome-art { mix-blend-mode: normal; border-radius: var(--radius); opacity: .9; }
-  .surprise-button, .pick-actions a { border-color: var(--accent); }
+  :root { color-scheme: dark; --paper: #24211e; --surface: #2d2925; --surface-muted: #3a342d; --ink: #f5ecdf; --muted: #c5b7a3; --line: #4a4139; --mark: #f08b6a; --cta-hover: #f8d26a; }
+  [data-category="all"] { --tone-soft: #523b27; --tone-ink: #f49846; }
+  [data-category="life"] { --tone-soft: #503329; --tone-ink: #f08b6a; }
+  [data-category="care"] { --tone-soft: #513d3c; --tone-ink: #f2a0a6; }
+  [data-category="puzzle"] { --tone-soft: #524628; --tone-ink: #f5c84c; }
+  [data-category="explore"] { --tone-soft: #3f412f; --tone-ink: #a1b56d; }
+  [data-category="garage"] { --tone-soft: #3a4146; --tone-ink: #86b4d6; }
 }

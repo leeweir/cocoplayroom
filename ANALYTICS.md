@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | 博客 | `blog` | `/`、`/blog/`、`/posts/…` 等 |
 | 可可的游戏小屋（入口） | `playroom` | `/cocoplayroom/` |
+| 南湾夜行（游戏页尚未加载统计脚本） | `southline-sunset-run` | `/southline-sunset-run/` |
 | 疯狂动物城·侦探档案 | `zoocity` | `/zoocity/` |
 | 小小旅行家 Coco | `cocotravel` | `/cocotravel/` |
 | 桃桃茶屋 | `cocoshop` | `/cocoshop/` |
@@ -21,6 +22,7 @@
 | 小兔的胡萝卜探险 | `bunny-carrot-adventure` | `/bunny-carrot-adventure/` |
 | 佩奇的完美假期 | `peppapig` | `/peppapig/` |
 | 可可的小世界 | `cocoworld` | `/cocoworld/` |
+| 巧克力的蛋仔城 | `cocogame` | `/cocogame/` |
 
 快捷入口：[游戏小屋](https://cloud.umami.is/analytics/us/websites/b72a1b50-0b5a-4d61-a9f5-d3878d826048?tag=eq.playroom)、[博客](https://cloud.umami.is/analytics/us/websites/b72a1b50-0b5a-4d61-a9f5-d3878d826048?tag=eq.blog)。
 
